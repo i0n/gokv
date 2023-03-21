@@ -42,9 +42,8 @@ Update:
 
 Delete:
 
-    curl -X PUT \
+    curl -X DELETE \
           -H 'Content-Type: application/json' \
-          -d '{"value":"Sharma"}' \
           localhost:8080/keys/1
 
   
