@@ -27,7 +27,7 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-      - run: make run
+      - run: make docker-run-d
       - run:
           name: Functional Tests
           command: make docker-test-functional
