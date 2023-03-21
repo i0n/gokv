@@ -22,15 +22,13 @@ jobs:
           name: Integration Tests
           command: make test-integration
   test-functional:
-    docker:
-      - image: cimg/go:1.20
+    machine: # executor type
+      image: ubuntu-2004:202010-01 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
     working_directory: ~/repo
     steps:
       - checkout
       - run: make docker-run-d
-      - run:
-          name: Functional Tests
-          command: make docker-test-functional
+      - run: make docker-test-functional
   deploy:
     docker:
       - image: cimg/base:stable
