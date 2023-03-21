@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gokv 
+spec:
+  revisionHistoryLimit: 5
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gokv
+  template:
+    metadata:
+      labels:
+        app: gokv
+    spec:
+      containers:
+      - name: app
+        image: i0nw/gokv:latest
+        imagePullPolicy: Always
+        env:
+          - name: GOKV_ENVIRONMENT
+            value: development
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      imagePullSecrets:
+      - name: dockerhub

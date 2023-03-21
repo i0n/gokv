@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gokvi0nio-ingress
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "gokv.i0n.io"
+      http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: gokvi0nio
+              port:
+                number: 8080
+  tls:
+  - hosts:
+    - gokv.i0n.io
+    secretName: gokvi0nio-cert
