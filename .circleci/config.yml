@@ -13,15 +13,24 @@ jobs:
           name: Unit Tests
           command: make test-unit
   test-integration:
-    machine: # executor type
-      image: ubuntu-2004:202010-01 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
+    docker:
+      - image: cimg/go:1.20
     working_directory: ~/repo
     steps:
       - checkout
-      - run: make docker-test-unit
-      - run: make docker-test-integration
-      - run: make docker-run-d
-      - run: make docker-test-functional
+      - run:
+          name: Integration Tests
+          command: make test-integration
+  test-functional:
+    docker:
+      - image: cimg/go:1.20
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: make run
+      - run:
+          name: Functional Tests
+          command: make docker-test-functional
   deploy:
     docker:
       - image: cimg/base:stable
@@ -61,6 +70,9 @@ workflows:
       - test-integration:
           requires:
             - test-unit
-      - deploy:
+      - test-functional:
           requires:
             - test-integration
+      - deploy:
+          requires:
+            - test-functional
